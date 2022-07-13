@@ -95,7 +95,7 @@ void setup()
 
   tagDetected1 = false;
   tagDetected2 = false;
-  speedChanged = false;
+  speedChanged = true;
 
   OledInit();
   
@@ -258,9 +258,9 @@ void OledInit(void)
 {
   oled.clearDisplay();
   oled.setTextSize(1);
-  oled.setTextColor(WHITE);
+  oled.setTextColor(1);
   oled.setCursor(25,0);
-  oled.println("press center");
+  oled.print("press center");
   oled.setCursor(25,8);
   oled.println("to perform");
   oled.setCursor(25,16);
@@ -274,7 +274,6 @@ void OledCountSeconds(unsigned int seconds)
   {
     oled.clearDisplay();
     oled.setTextSize(3);
-    oled.setTextColor(WHITE);
     oled.setCursor(50,25);
     oled.println(i);
     oled.display();
@@ -304,7 +303,7 @@ void TagSpeedChange(void)
   {
     if(tagDetected1)
     {
-      if(maximumSpeed == 30) maximumSpeed = 55;
+      if(maximumSpeed == 30) maximumSpeed = 60;
         else maximumSpeed = 30;
 
       speedChanged = true;
@@ -313,7 +312,7 @@ void TagSpeedChange(void)
 
     if(tagDetected2)
     {
-       maximumSpeed = 70;
+       maximumSpeed = 80;
 
       speedChanged = true;
       tagDetected2 = false;
@@ -325,7 +324,6 @@ void OledDebug(void)
 {
   oled.clearDisplay();
   oled.setTextSize(1);
-  oled.setTextColor(WHITE);
   oled.setCursor(10,0);
   oled.print("line pos = ");
   oled.print(linePosition);
@@ -349,9 +347,15 @@ void OledPrintSpeed(void)
     speedChanged = false;
     
     oled.clearDisplay();
-    oled.setTextSize(3);
-    oled.setTextColor(WHITE);
+    oled.setTextSize(1);
+    int i = 0;
+    if(maximumSpeed == 30) i = 6;
+    else if(maximumSpeed == 60) i = 12;
+    else if(maximumSpeed == 80) i = 18;
+    oled.setCursor(10,0);
+    for(i; i > 1; i--) oled.print((char)219);
     oled.setCursor(30,25);
+    oled.setTextSize(3);
     oled.print((int)maximumSpeed);
     oled.display();
   }
